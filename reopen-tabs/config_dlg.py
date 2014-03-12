@@ -38,7 +38,7 @@ class conf_dlg(gtk.Dialog):
         self.vbox.pack_start(self._chk_save, True, True, 10)
         
         # Setup configuration file path
-        self._conf_path = os.path.join(os.path.expanduser("~/.gnome2/gedit/plugins/"), "reopen-tabs/plugin.conf")
+        self._conf_path = os.path.join(os.path.expanduser("~/.config/pluma/plugins/"), "reopen-tabs/plugin.conf")
         
         # Check if configuration file does not exists
         if not os.path.exists(self._conf_path):

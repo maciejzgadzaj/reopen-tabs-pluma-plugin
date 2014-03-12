@@ -1,4 +1,4 @@
-[Gedit Plugin]
+[Pluma Plugin]
 Loader=python
 Module=reopen-tabs
 IAge=2

@@ -20,7 +20,7 @@
 import pygtk
 pygtk.require("2.0")
 import gtk
-import gedit
+import pluma
 import time
 import os
 import sys
@@ -30,7 +30,7 @@ import exit_dlg
 import gettext
 
 APP_NAME = "plugin"
-LOC_PATH = os.path.join(os.path.expanduser("~/.gnome2/gedit/plugins/reopen-tabs/lang"))
+LOC_PATH = os.path.join(os.path.expanduser("~/.config/pluma/plugins/reopen-tabs/lang"))
 
 gettext.find(APP_NAME, LOC_PATH)
 gettext.install(APP_NAME, LOC_PATH, True)
@@ -40,9 +40,9 @@ RELOADER_STATE_WAIT         = "wait"
 RELOADER_STATE_RELOADING    = "reloading"
 RELOADER_STATE_DONE         = "done"
 
-class ReopenTabsPlugin(gedit.Plugin):
+class ReopenTabsPlugin(pluma.Plugin):
     def __init__(self):
-        gedit.Plugin.__init__(self)
+        pluma.Plugin.__init__(self)
         
         self._config = None
         
@@ -77,7 +77,7 @@ class ReopenTabsPlugin(gedit.Plugin):
             tab = window.get_active_tab()
             
             # Check if we are ready to reload
-            if tab and tab.get_state() == gedit.TAB_STATE_NORMAL:
+            if tab and tab.get_state() == pluma.TAB_STATE_NORMAL:
                 self._state = RELOADER_STATE_RELOADING
 
                 self._reopen_tabs(window)
@@ -131,7 +131,7 @@ class ReopenTabsPlugin(gedit.Plugin):
         
     def _get_doc_list(self):
         # Get document URI list
-        app  = gedit.app_get_default()
+        app  = pluma.app_get_default()
         win  = app.get_active_window()
         docs = win.get_documents()
         
@@ -142,7 +142,7 @@ class ReopenTabsPlugin(gedit.Plugin):
         self._config.add_section("documents")
         
         # Get active document
-        app = gedit.app_get_default()
+        app = pluma.app_get_default()
         win = app.get_active_window()
     
         doc = win.get_active_document()
@@ -207,7 +207,7 @@ class ReopenTabsPlugin(gedit.Plugin):
                 # Check if document is not already opened
                 if open_docs.count(uri) == 0:
                     # Create new tab
-                    tab = window.create_tab_from_uri(uri, gedit.encoding_get_current(), 0, True, False)
+                    tab = window.create_tab_from_uri(uri, pluma.encoding_get_current(), 0, True, False)
             
                     # Check if document was active (and there is NOT file in command line)
                     if d == active and not self._active_tab:
@@ -219,7 +219,7 @@ class ReopenTabsPlugin(gedit.Plugin):
 
     def _on_doc_loaded(self, doc, arg): # Switches to saved active document tab
         # Activate tab
-        app = gedit.app_get_default()
+        app = pluma.app_get_default()
         win = app.get_active_window()
         win.set_active_tab(self._active_tab)
         
